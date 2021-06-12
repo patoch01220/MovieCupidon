@@ -1,0 +1,76 @@
+<style>
+
+  .full-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 14px;
+    padding-left: 50px;
+  }
+
+  .input {
+    color: #FAFAFA;
+    margin: 30px;
+  }
+
+  .button {
+    color: #FAFAFA;
+    font-size: x-large;
+    text-align: center;
+    text-align: center;
+    line-height: 124px;
+    width: 265px;
+    height: 124px;
+    background: #DC4545;
+    opacity: 0.9;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 31px;
+    transform: rotate(0.27deg);
+  }
+
+
+  mat-form-field.mat-form-field {
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: 700px) {
+
+    .input {
+      justify-content: center;
+      align-items: stretch;
+
+    }
+
+    .full-container {
+      flex-direction: column;
+      padding-left: 80px;
+    }
+
+    .button {
+      width: 177px;
+      height: 83px;
+      line-height: 83px;
+      text-align: center;
+      margin: 20px;
+    }
+  }
+
+</style>
+
+<div class="full-container">
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
+
+    <mat-form-field class="input">
+      <mat-label>Username</mat-label>
+      <input name="username" matInput placeholder="Ex: NOA18" type="text" class="form-control"
+             formControlName="username"/>
+    </mat-form-field>
+
+    <button class="button smaller-button" mat-stroked-button
+            type="submit" [disabled]="userForm.invalid">Start</button>
+
+  </form>
+
+</div>
+

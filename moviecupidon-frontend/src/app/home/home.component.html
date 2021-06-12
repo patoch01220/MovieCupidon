@@ -1,0 +1,82 @@
+<style>
+
+  .all-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container {
+    display: flex;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 100px 0;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+  }
+
+  .button {
+    color: #FAFAFA;
+    font-size: x-large;
+    text-align: center;
+    line-height: 124px;
+    width: 265px;
+    height: 124px;
+    background: #DC4545;
+    opacity: 0.9;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 31px;
+    transform: rotate(0.27deg);
+  }
+
+  @media screen and (max-width: 700px) {
+
+    .container {
+      width: auto;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .button {
+      width: 177px;
+      height: 83px;
+      line-height: 83px;
+      text-align: center;
+      margin: 20px;
+    }
+
+  }
+
+
+</style>
+
+<div class="all-container">
+
+  <div class="container" *ngIf="this.state === 'buttons'">
+
+    <div class="button" *ngIf="this.state" (click)="this.state = 'create'">Create Game</div>
+    <div class="button" *ngIf="this.state" (click)="this.state = 'join'">Join Game</div>
+  </div>
+
+  <div class="container" *ngIf="this.state !== 'buttons'">
+
+    <app-formulaire-create *ngIf="this.state === 'create'"></app-formulaire-create>
+    <app-formulaire-join *ngIf="this.state === 'join'"></app-formulaire-join>
+
+    <div class="button smaller-button" *ngIf="this.state !== 'buttons'" (click)="this.state = 'buttons'">Go Back</div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+

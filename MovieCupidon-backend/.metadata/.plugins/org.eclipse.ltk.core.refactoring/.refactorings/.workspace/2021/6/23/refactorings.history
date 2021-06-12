@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 0 elements to &apos;lobby-service/src/test/java/ch.unige&apos;&#x0A;- Destination element: &apos;lobby-service/src/test/java/ch.unige&apos;" description="Copy compilation units" destination="=lobby-service/src\/test\/java=/optional=/true=/=/maven.pomderived=/true=/=/test=/true=/&lt;ch.unige" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1623261034826" units="0" version="1.0"/>
+</session>

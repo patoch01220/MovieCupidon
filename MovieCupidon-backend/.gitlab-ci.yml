@@ -1,0 +1,47 @@
+image: maven:latest
+stages:
+  - build
+  - report
+  - deploy
+
+build:
+  stage: build
+  script:
+    - mvn package 
+  variables:
+    MAVEN_OPTS: "-Dmaven.repo.local=${CI_PROJECT_DIR}/.repository/"
+  cache:
+    key: maven
+    paths: [.repository/]
+  artifacts:
+    paths:
+      - lobby-service/target/
+      - sample-service/target/
+      - chat-service/target/
+      - play-service/target/
+
+coverage:
+  cache:
+    key: maven
+  dependencies: 
+    - build
+  stage: report
+  script:
+    - mvn verify sonar:sonar -Dsonar.projectKey=Bayar4B_g4-MovieCupidon-backend -Dsonar.organization=bayar4b -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=fbb37c529d7dfeb48d1f6a0111d994e3e2edd593
+    
+  artifacts:
+    paths:
+      - coverage/target/site/jacoco-aggregate
+  
+  only:
+    - dev
+    - master
+
+deploy:
+  cache:
+    key: maven
+  stage: deploy
+  script:
+    - mvn package -Dquarkus.container-image.username=$DOCKER_USERNAME -Dquarkus.container-image.password=$DOCKER_PASSWORD -Dquarkus.container-image.push=true -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=latest
+  only:
+    - dev

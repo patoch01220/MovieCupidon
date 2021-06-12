@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ch.unige</groupId>
+        <artifactId>MovieCupidon-backend</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <groupId>ch.unige</groupId>
+    <artifactId>coverage</artifactId>
+    <name>report-coverage   </name>
+    <version>1.0.0-SNAPSHOT</version>
+    <properties>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>ch.unige</groupId>
+            <artifactId>lobby-service</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.unige</groupId>
+            <artifactId>sample-service</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.unige</groupId>
+            <artifactId>chat-service</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.unige</groupId>
+            <artifactId>play-service</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

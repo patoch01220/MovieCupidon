@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="System"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="system"/>
+			<item value="TESS"/>
+			<item value="Tess"/>
+			<item value="Syst"/>
+			<item value="TES"/>
+			<item value="TESSST1"/>
+			<item value="TESSS"/>
+			<item value="find"/>
+			<item value="@Test"/>
+			<item value="findUserInLobbyById"/>
+			<item value="getNewToken"/>
+			<item value="    public static ArrayList&lt;Lobby&gt; getFullDB(){"/>
+			<item value="TESTSSSSS"/>
+			<item value="removeUserFromLobby_Test"/>
+			<item value="quit"/>
+		</list>
+		<list key="replacehistory">
+			<item value=""/>
+			<item value=".post(&quot;/join-lobby/join&quot;)"/>
+			<item value="lobbyDB"/>
+			<item value="Lobby"/>
+			<item value="lobby"/>
+			<item value="newLobby"/>
+			<item value="add_lobby"/>
+			<item value="userLobbyDB"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="14"/>
+		<item key="DIALOG_Y_ORIGIN" value="186"/>
+		<item key="DIALOG_WIDTH" value="292"/>
+		<item key="DIALOG_HEIGHT" value="402"/>
+		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+	</section>
+</section>

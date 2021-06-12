@@ -1,0 +1,18 @@
+<style>
+
+  .text-color {
+    height: auto !important;
+    color: #FAFAFA;!important;
+  }
+
+  .space-list {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+</style>
+
+<mat-card-title class="text-color space-list">Players</mat-card-title>
+<mat-list class="space-list">
+  <mat-list-item class="text-color" *ngFor="let user of users">{{ user.username }}</mat-list-item>
+</mat-list>

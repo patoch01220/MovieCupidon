@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Encapsulate field &apos;ch.unige.domain.UserInLobby.readyOrNot&apos; in &apos;ch.unige.domain.UserInLobby&apos;&#x0A;- Original project: &apos;lobby-service&apos;&#x0A;- Original element: &apos;ch.unige.domain.UserInLobby.readyOrNot&apos;&#x0A;- Getter method name: &apos;getReadyOrNot&apos;&#x0A;- Setter method name: &apos;setReadyOrNot&apos;&#x0A;- Field visibility: &apos;public&apos;&#x0A;- Use getter and setter methods in declaring type" comments="false" declaring="true" description="Encapsulate field &apos;readyOrNot&apos;" flags="589830" getter="getReadyOrNot" id="org.eclipse.jdt.ui.self.encapsulate" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;ch.unige.domain{UserInLobby.java[UserInLobby^readyOrNot" insertion="4" setter="setReadyOrNot" stamp="1619974760508" version="1.0" visibility="1"/>
+</session>

@@ -1,0 +1,32 @@
+stages:
+ - build
+ - deploy
+
+cache:
+    paths:
+      - node_modules/
+
+build:
+  stage: build
+  image: node
+
+  script:
+    - npm ci
+    - npm install -g @angular/cli
+    - ng build
+  artifacts:
+    paths:
+      - dist/
+
+deploy:
+  dependencies:
+    - build
+  image: docker:latest
+  stage: deploy
+  script:
+      - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+      - docker build -t moviecupidon/frontend:latest .
+      - docker push moviecupidon/frontend
+  only:
+    - Dev
+

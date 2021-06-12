@@ -1,0 +1,4 @@
+commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>Update methode createSession du fichier SessionResssource \:&\#x0A;&\#x0A;Rajout du @FormParam pour recuperer le username.</message>\n<message>Creation class User&\#x0A;Doit-on mettre le user id dans le constructeur ou generer un nombre alea&\#x0A;unique dans la base de donn\u00E9e ?&\#x0A;&\#x0A;Function createSession \: @FormParam a corriger ou modifier le fichier&\#x0A;insomnia pour lui fournir un username qu&apos;on recolterait avec un form&\#x0A;html</message>\n</messages>
+eclipse.preferences.version=1
+resourcehistory_graph_split=500,500
+resourcehistory_rev_split=700,300

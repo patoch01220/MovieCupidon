@@ -1,0 +1,14 @@
+kafka.bootstrap.servers=localhost:9092
+
+quarkus.container-image.registry=docker.io
+quarkus.container-image.group=moviecupidon
+
+security.aes.key=my_super_secret_key_ho_ho_ho
+security.aes.salt=ssshhhhhhhhhhh!!!!
+security.aes.iv=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/my_db
+quarkus.datasource.db-kind=postgresql
+quarkus.datasource.username=username
+quarkus.datasource.password=password
+quarkus.hibernate-orm.database.generation=drop-and-create

@@ -1,0 +1,306 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webui-ingress
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    # nginx.ingress.kubernetes.io/auth-url: "https://movie.graved.ch/oauth2/auth"
+    # nginx.ingress.kubernetes.io/auth-signin: "https://movie.graved.ch/oauth2/start?rd=$escaped_request_uri"
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #    auth_request_set $user   $upstream_http_x_auth_request_user;
+    #    auth_request_set $email  $upstream_http_x_auth_request_email;
+    #    proxy_set_header X-User  $user;
+    #    proxy_set_header X-Email $email;
+    #    auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+    #    access_by_lua_block {
+    #      if ngx.var.name_upstream_1 ~= "" then
+    #        ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+    #      end
+    #    }
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    # nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # nginx.ingress.kubernetes.io/server-snippets: |
+    #   location / {
+    #   proxy_set_header Upgrade $http_upgrade;
+    #   proxy_http_version 1.1;
+    #   proxy_set_header X-Forwarded-Host $http_host;
+    #   proxy_set_header X-Forwarded-Proto $scheme;
+    #   proxy_set_header X-Forwarded-For $remote_addr;
+    #   proxy_set_header Host $host;
+    #   proxy_set_header Connection "upgrade";
+    #   proxy_cache_bypass $http_upgrade; 
+    #   }
+
+spec:
+  tls:
+    - hosts:
+      - movie.graved.ch
+      secretName: tls-secret
+  rules:
+#  - host: movie.graved.ch
+  - http:
+      paths:
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: webui-service
+            port:
+              number: 80
+--- 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lobby-ingress
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/enable-cors: "true" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*,http://localhost:4200/,https://movie.graved.ch:4200/" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    # nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # nginx.ingress.kubernetes.io/server-snippets: |
+    #   location / {
+    #   proxy_set_header Upgrade $http_upgrade;
+    #   proxy_http_version 1.1;
+    #   proxy_set_header X-Forwarded-Host $http_host;
+    #   proxy_set_header X-Forwarded-Proto $scheme;
+    #   proxy_set_header X-Forwarded-For $remote_addr;
+    #   proxy_set_header Host $host;
+    #   proxy_set_header Connection "upgrade";
+    #   proxy_cache_bypass $http_upgrade; 
+    #   }
+
+    # DISABLED FOR OETSKE; BCS OF CORS REDIRECTION ISSUES...
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: "https://movie.graved.ch/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://movie.graved.ch/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       auth_request_set $user   $upstream_http_x_auth_request_user;
+       auth_request_set $email  $upstream_http_x_auth_request_email;
+       proxy_set_header X-User  $user;
+       proxy_set_header X-Email $email;
+       auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+       access_by_lua_block {
+         if ngx.var.name_upstream_1 ~= "" then
+           ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+         end
+       }
+spec:
+  tls:
+    - hosts:
+      - movie.graved.ch
+      secretName: tls-secret
+  rules:
+  - http:
+      paths:
+      - path: /api/lobby/v1(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: lobby-service
+            port:
+              number: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sample-ingress
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/enable-cors: "true" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*,http://localhost:4200/,https://movie.graved.ch:4200/" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    # nginx.ingress.kubernetes.io/auth-url: "https://movie.graved.ch/oauth2/auth" # New for authentification
+    # nginx.ingress.kubernetes.io/auth-signin: "https://movie.graved.ch/oauth2/start?rd=$escaped_request_uri" # New for authentification
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    # nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # nginx.ingress.kubernetes.io/server-snippets: |
+    #   location / {
+    #   proxy_set_header Upgrade $http_upgrade;
+    #   proxy_http_version 1.1;
+    #   proxy_set_header X-Forwarded-Host $http_host;
+    #   proxy_set_header X-Forwarded-Proto $scheme;
+    #   proxy_set_header X-Forwarded-For $remote_addr;
+    #   proxy_set_header Host $host;
+    #   proxy_set_header Connection "upgrade";
+    #   proxy_cache_bypass $http_upgrade; 
+    #   }
+
+
+    # DISABLED FOR OETSKE; BCS OF CORS REDIRECTION ISSUES...
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       auth_request_set $user   $upstream_http_x_auth_request_user;
+       auth_request_set $email  $upstream_http_x_auth_request_email;
+       proxy_set_header X-User  $user;
+       proxy_set_header X-Email $email;
+       auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+       access_by_lua_block {
+         if ngx.var.name_upstream_1 ~= "" then
+           ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+         end
+       }
+
+spec:
+  tls:
+    - hosts:
+      - movie.graved.ch
+      secretName: tls-secret
+  rules:
+  - http:
+      paths:
+      - path: /api/sample/v1(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: sample-service
+            port:
+              number: 8081
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chat-ingress
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/enable-cors: "true" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*,http://localhost:4200/,https://movie.graved.ch:4200/" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+
+    # nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    # nginx.ingress.kubernetes.io/auth-url: "https://movie.graved.ch/oauth2/auth"
+    # nginx.ingress.kubernetes.io/auth-signin: "https://movie.graved.ch/oauth2/start?rd=$escaped_request_uri"
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #    auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+    #    access_by_lua_block {
+    #      if ngx.var.name_upstream_1 ~= "" then
+    #        ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+    #      end
+    #    }
+
+spec:
+  # tls:
+  #   - hosts:
+  #     - movie.graved.ch
+  #     secretName: tls-secret
+  rules:
+  - http:
+      paths:
+      - path: /api/chat/v1(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: chat-service
+            port:
+              number: 8082
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: play-ingress
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/enable-cors: "true" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*,http://localhost:4200/,https://movie.graved.ch:4200/" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true" # USED FOR FRONTEND DEV IN LOCALHOST TO REMOVE FOR PROD !!!!!
+
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: "https://movie.graved.ch/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://movie.graved.ch/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       auth_request_set $user   $upstream_http_x_auth_request_user;
+       auth_request_set $email  $upstream_http_x_auth_request_email;
+       proxy_set_header X-User  $user;
+       proxy_set_header X-Email $email;
+       auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+       access_by_lua_block {
+         if ngx.var.name_upstream_1 ~= "" then
+           ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+         end
+       }
+spec:
+  # tls:
+  #   - hosts:
+  #     - movie.graved.ch
+  #     secretName: tls-secret
+  rules:
+  - http:
+      paths:
+      - path: /api/play/v1(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: play-service
+            port:
+              number: 8083
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: "https://movie.graved.ch/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://movie.graved.ch/oauth2/start?rd=$escaped_request_uri"
+    # nginx.ingress.kubernetes.io/auth-response-headers: X-Forwarded-*
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+       auth_request_set $user   $upstream_http_x_auth_request_user;
+       auth_request_set $email  $upstream_http_x_auth_request_email;
+       proxy_set_header X-User  $user;
+       proxy_set_header X-Email $email;
+       auth_request_set $name_upstream_1 $upstream_cookie__oauth2_proxy_1;
+       access_by_lua_block {
+         if ngx.var.name_upstream_1 ~= "" then
+           ngx.header["Set-Cookie"] = "_oauth2_proxy_1=" .. ngx.var.name_upstream_1 .. ngx.var.auth_cookie:match("(; .*)")
+         end
+       }
+spec:
+  tls:
+    - hosts:
+      - movie.graved.ch
+      secretName: tls-secret
+  rules:
+  - http:
+      paths:
+      - path: /api/test/v1(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: test-service
+            port:
+              number: 8088
+## Ingress certs command: kubectl create secret tls tls-secret      --key movie.graved.ch.key     --cert fullchain.cer
+
+--- # FOR AUTH
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+
+metadata:
+  name: oauth2-proxy
+  annotations:
+    kubernetes.io/ingress.class: public
+
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: oauth2-proxy
+          servicePort: 4180
+        path: /oauth2
+  tls:
+    - hosts:
+      - movie.graved.ch
+      secretName: tls-secret

@@ -1,0 +1,9 @@
+1618513687325	Encapsulate field 'user_id'
+1618516603616	Encapsulate field 'room_token'
+1618516795364	Encapsulate field 'ready_statut'
+1618516897534	Encapsulate field 'session_status'
+1618516903113	Encapsulate field 'chat_id'
+1618516959226	Encapsulate field 'creator_user_id'
+1618517293594	Delete element
+1618517300041	Delete element
+1618518493506	Encapsulate field 'next_user_id'

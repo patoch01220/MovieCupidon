@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="CommitDialog.authorValues">
+		<item value="patoch &lt;patoch@patricks-macbook-pro.home&gt;"/>
+	</list>
+	<list key="CommitDialog.committerValues">
+		<item value="patoch &lt;patoch@patricks-macbook-pro.home&gt;"/>
+	</list>
+	<section name="org.eclipse.egit.ui.internal.staging.StagingView">
+		<item key="HORIZONTAL_SASH_FORM_WEIGHT" value="500,500"/>
+		<item key="STAGING_SASH_FORM_WEIGHT" value="500,500"/>
+		<item key="sortItemState" value="false"/>
+	</section>
+	<section name="GitCommitMessageComponent">
+		<list key="/Users/patoch/Desktop/Patoch/3rd_Year/2nd_Semester/Projet_Info/Projet/MovieCupidon-backend/.git">
+			<item value="false"/>
+			<item value="patoch &lt;patoch@patricks-macbook-pro.home&gt;"/>
+			<item value="Update @FormParam"/>
+			<item value="patoch &lt;patoch@patricks-macbook-pro.home&gt;"/>
+			<item value="b6877eef36f22aae40635337b3781fd59beb9968"/>
+			<item value="0"/>
+			<item value="false"/>
+		</list>
+	</section>
+	<section name="org.eclipse.egit.ui.internal.push.PushResultDialog.dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="315"/>
+		<item key="DIALOG_Y_ORIGIN" value="69"/>
+		<item key="DIALOG_WIDTH" value="650"/>
+		<item key="DIALOG_HEIGHT" value="445"/>
+		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+		<list key="sashWeights">
+			<item value="600"/>
+			<item value="400"/>
+		</list>
+	</section>
+</section>

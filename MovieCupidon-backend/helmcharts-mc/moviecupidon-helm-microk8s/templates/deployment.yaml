@@ -1,0 +1,191 @@
+# Static deployments...
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lobby-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app : lobby
+  template:
+    metadata:
+      labels:
+        app: lobby
+    spec:
+      containers:
+      - envFrom:
+        - secretRef:
+            name: postgres-secret-lobby
+        - configMapRef:
+            name: postgres-config-lobby
+        name: lobby
+        image: moviecupidon/lobby-service:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app : sample
+  template:
+    metadata:
+      labels:
+        app: sample
+    spec:
+      containers:
+      - name: sample
+        image: moviecupidon/sample-service:latest
+        ports:
+        - containerPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app : chat
+  template:
+    metadata:
+      labels:
+        app: chat
+    spec:
+      containers:
+      - name: chat
+        image: moviecupidon/chat-service:latest
+        ports:
+        - containerPort: 8082
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app : webui
+  template:
+    metadata:
+      labels:
+        app: webui
+    spec:
+      containers:
+      - name: webui
+        image: moviecupidon/frontend:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: play-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app : play
+  template:
+    metadata:
+      labels:
+        app: play
+    spec:
+      containers:
+      - name: play
+        image: moviecupidon/play-service:latest
+        ports:
+        - containerPort: 8083
+        envFrom:
+        - secretRef:
+            name: postgres-secret-play
+        - configMapRef:
+            name: postgres-config-play
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: test
+        image: moviecupidon/test-service:latest
+        ports:
+        - containerPort: 8088
+--- # FOR AUTH
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: oauth2-proxy
+  name: oauth2-proxy
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      k8s-app: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        k8s-app: oauth2-proxy
+    spec:
+      containers:
+      - args:
+        - --provider=oidc
+        - --upstream=https://movie.graved.ch/
+        - --http-address=0.0.0.0:4180
+        - --cookie-secure=true
+        - --redirect-url=https://movie.graved.ch/oauth2/callback
+        - --pass-user-headers=true
+        - --set-xauthrequest=true
+        - --pass-access-token=true
+        - --skip-jwt-bearer-tokens=true
+        - --set-authorization-header=true
+        - --pass-authorization-header=true
+        - --cookie-secure=true
+        - --skip-auth-preflight=false
+        - --skip-oidc-discovery
+        - --oidc-issuer-url=https://moviecupidon.eu.auth0.com/
+        - --login-url=https://moviecupidon.eu.auth0.com/authorize
+        - --redeem-url=https://moviecupidon.eu.auth0.com/oauth/token
+        - --oidc-jwks-url=https://moviecupidon.eu.auth0.com/.well-known/jwks.json
+        - --email-domain=*
+        - --skip-auth-strip-headers=false
+        - --pass-basic-auth=false
+        env:
+        - name: OAUTH2_PROXY_CLIENT_ID
+          value: 9siovHnR5oWvOWz5FLFbbk1Xj5UhcDhY
+        - name: OAUTH2_PROXY_CLIENT_SECRET
+          value: 7POfOY21sRnufAc8i5x8iWvM4ZmvQvJ6GXTAOYlU2XUoVwUk6NDoy3sV2icYSLFN
+        - name: OAUTH2_PROXY_COOKIE_SECRET
+          value: GjF6VW3G9rQUzoARFuySAg==
+        image: quay.io/oauth2-proxy/oauth2-proxy:latest
+        imagePullPolicy: Always
+        name: oauth2-proxy
+        ports:
+        - containerPort: 4180
+          protocol: TCP
+---

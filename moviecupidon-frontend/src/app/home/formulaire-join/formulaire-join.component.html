@@ -1,0 +1,91 @@
+<style>
+
+  .column-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .full-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .input {
+    color: #FAFAFA;
+    margin: 30px;
+  }
+
+
+  .button {
+    color: #FAFAFA;
+    font-size: x-large;
+    text-align: center;
+    line-height: 124px;
+    width: 265px;
+    height: 124px;
+    margin-right: 80px;
+    background: #DC4545;
+    opacity: 0.9;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 31px;
+    transform: rotate(0.27deg);
+  }
+
+  mat-form-field.mat-form-field {
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: 700px) {
+
+    .input {
+      justify-content: center;
+      align-items: stretch;
+      margin: 5px;
+    }
+
+    .full-container {
+      flex-direction: column;
+      padding-left: 80px;
+    }
+
+    .button {
+      width: 177px;
+      height: 83px;
+      line-height: 83px;
+      text-align: center;
+      margin: 20px;
+    }
+  }
+
+</style>
+<div class="column-container">
+
+  <div class="full-container">
+
+    <form [formGroup]="userTokenForm" (ngSubmit)="onSubmitForm()">
+
+      <mat-form-field class="input">
+        <mat-label>Username</mat-label>
+        <label>
+          <input type="text" class="form-control" formControlName="username" matInput placeholder="Ex: NOA18">
+        </label>
+      </mat-form-field>
+
+      <mat-form-field class="input">
+        <mat-label>Token</mat-label>
+        <label>
+          <input type="text" class="form-control" formControlName="token" matInput placeholder="Ex: U1B6X">
+        </label>
+      </mat-form-field>
+
+
+
+    </form>
+
+    <button class="button smaller-button" mat-stroked-button
+            type="submit" [disabled]="userTokenForm.invalid">Start</button>
+
+  </div>
+</div>
+
